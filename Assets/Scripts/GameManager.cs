@@ -1,34 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
+using General;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonMonoBehavior<GameManager>
 {
     [SerializeField] private Spawner spawner;
     
     [Header("Boundary")]
-    [SerializeField] private float xMin;
-    [SerializeField] private float xMax;
-    [SerializeField] private float yMin;
-    [SerializeField] private float yMax;
 
     [SerializeField] private TMP_Text logText;
  
-    private List<GameObject> _spawnedGameObjects;
+    [FormerlySerializedAs("_spawnedGameObjects")] public List<GameObject> spawnedGameObjects;
 
     private void Start()
     {
-        _spawnedGameObjects = new List<GameObject>();
+        spawnedGameObjects = new List<GameObject>();
     }
 
-    private void UpdateStatus()
-    {
-        var status = $"Active = {spawner.CountActive}, Inactive = {spawner.CountInactive}, All = {spawner.CountAll}";
-        logText.text = status;
-    }
-    
-    public void OnClickSpawnButton()
+    public void Spawn()
     {
         var obj = spawner.Spawn();
         if (!obj)
@@ -37,25 +30,23 @@ public class GameManager : MonoBehaviour
             return;
         }
         
-        _spawnedGameObjects.Add(obj);
+        spawnedGameObjects.Add(obj);
 
-        var x = Random.Range(xMin, xMax);
-        var y = Random.Range(yMin, yMax);
 
-        obj.transform.position = new Vector3(x, y);
-        UpdateStatus();
+
+        obj.transform.position = transform.position;
     }
 
-    public void OnClickDespawnButton()
+    public void DeSpawn()
     {
-        if (_spawnedGameObjects.Count == 0)
+        if (spawnedGameObjects.Count == 0)
         {
             Debug.LogWarning("No spawned gameobject!");
             return;
         }
 
-        spawner.Despawn(_spawnedGameObjects.Last());
-        _spawnedGameObjects.RemoveAt(_spawnedGameObjects.Count - 1);
-        UpdateStatus();
+        spawner.Despawn(spawnedGameObjects.Last());
+        spawnedGameObjects.RemoveAt(spawnedGameObjects.Count - 1);
     }
+    
 }
