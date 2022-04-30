@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Cube : MonoBehaviour
 {
+    //簡單推動東西的程式而已，不用看
     private Rigidbody _rigidbody;
 
     [SerializeField] private float speed;

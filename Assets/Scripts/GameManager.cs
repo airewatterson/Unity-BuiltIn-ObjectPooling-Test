@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using General;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -31,22 +28,6 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         }
         
         spawnedGameObjects.Add(obj);
-
-
-
         obj.transform.position = transform.position;
     }
-
-    public void DeSpawn()
-    {
-        if (spawnedGameObjects.Count == 0)
-        {
-            Debug.LogWarning("No spawned gameobject!");
-            return;
-        }
-
-        spawner.Despawn(spawnedGameObjects.Last());
-        spawnedGameObjects.RemoveAt(spawnedGameObjects.Count - 1);
-    }
-    
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PoolBack : MonoBehaviour
 {
+    //回傳回去物件池
     [SerializeField]private Spawner spawner;
 
     private List<GameObject> _list;
@@ -33,12 +34,5 @@ public class PoolBack : MonoBehaviour
 
         
         
-    }
-
-
-    private void Pool()
-    {
-        
-        ;
     }
 }

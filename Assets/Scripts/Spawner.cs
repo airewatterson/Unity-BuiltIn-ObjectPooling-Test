@@ -3,8 +3,14 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
+    //物件池主程式
+    
+    //哪些東西要生成？
     [SerializeField] private GameObject bulletPrefab;
+    //最大生成多少？
     [SerializeField] private int maxPoolSize;
+    
+    //Pool
     private ObjectPool<GameObject> _pool;
 
     public int CountAll => _pool.CountAll;
@@ -14,6 +20,7 @@ public class Spawner : MonoBehaviour
     
     void Start()
     {
+        //(如果場地上沒有物件創建物件，如果有重新創建(開啟物件)，釋放物件(關閉物件)，確認是否有收集垃圾，預設值，最大值)
         _pool = new ObjectPool<GameObject>(OnCreatePoolObject,
             OnGetPoolObject,
             OnReleasePoolObject,
@@ -25,8 +32,8 @@ public class Spawner : MonoBehaviour
 
     GameObject OnCreatePoolObject()
     {
-        var obj = Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        obj.transform.SetParent(this.transform);
+        var obj = Instantiate(bulletPrefab, Vector3.zero, Quaternion.identity);
+        obj.transform.SetParent(transform);
         return obj;
     }
 
@@ -58,6 +65,7 @@ public class Spawner : MonoBehaviour
         return obj;
     }
 
+    //釋放對象物件
     public void Despawn(GameObject obj)
     {
         _pool.Release(obj);
